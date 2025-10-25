@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    use HasFactory;
     protected $fillable = [
         "name",
         "parent_id"
@@ -21,7 +23,7 @@ class Activity extends Model
     // подкатегория имеет родителя
     public function parent()
     {
-        return $this->hasMany(Activity::class, 'parent_id');
+        return $this->belongsTo(Activity::class, 'parent_id');
 
     }
 
