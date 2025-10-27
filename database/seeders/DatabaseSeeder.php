@@ -27,11 +27,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // Создаем здания
-        Building::factory(5)->create();
+        // Building::factory(5)->create();
 
-        // Создаем организации
-        Organization::factory(10)
-            ->has(OrganizationPhone::factory()->count(2)) // Для каждой организации создаем 2 телефона
+        // Создаем организации при этом внутри фабрики OrganizationPhone не создается новой организации
+        //она использует только что созданный id Organization
+        Building::factory(5)->has(Organization::factory(2)
+            ->has(OrganizationPhone::factory()->count(2))) // Для каждой организации создаем 2 телефона
             ->create();
 
         // Создаем и связываем активности

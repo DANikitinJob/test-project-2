@@ -17,7 +17,7 @@ class OrganizationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'ООО "' . $this->faker->company . '"',
+            'name' => fake()->company,
             'building_id' => \App\Models\Building::factory(),
         ];
     }

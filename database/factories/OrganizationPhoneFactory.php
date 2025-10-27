@@ -18,7 +18,7 @@ class OrganizationPhoneFactory extends Factory
     {
         return [
             'organization_id' => \App\Models\Organization::factory(),
-            'phone' => $this->faker->numerify('#-###-###'),
+            'phone' => fake()->phoneNumber(),
         ];
     }
 }
