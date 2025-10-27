@@ -11,7 +11,11 @@ class OrganizationController extends Controller
 {
     public function searchByName(Request $request)
     {
-        $organization = Organization::where("name", "LIKE", "%" . $request->input("name") . "%")
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $organization = Organization::where("name", "LIKE", "%" . $data["name"] . "%")
             ->with(["building", "OrganizationPhones", "activities"])->first();
         return response()->json($organization);
     }
@@ -19,9 +23,15 @@ class OrganizationController extends Controller
     // поиск организаций по геопозиции
     public function geoSearch(Request $request)
     {
-        $lat = $request->input('lat');
-        $lng = $request->input('lng');
-        $radius = $request->input('radius', 1); // км
+        $data = $request->validate([
+            'lat' => 'required|numeric|between:-90,90',
+            'lng' => 'required|numeric|between:-180,180',
+            'radius' => 'nullable|numeric|min:0',
+        ]);
+
+        $lat = $data['lat'];
+        $lng = $data['lng'];
+        $radius = $data['radius'] ?? 1; // км
 
         // если связанное с организацией здание входит в радиус, то выбираем эту организацию
         $organizations = Organization::whereHas('building', function ($query) use ($lat, $lng, $radius) {
