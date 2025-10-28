@@ -5,6 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Activity",
+ *     required={"id", "name"},
+ *     @OA\Property(property="id", type="integer", format="int64"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="parent_id", type="integer", format="int64", nullable=true),
+ *     @OA\Property(
+ *         property="children",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Activity")
+ *     ),
+ *     @OA\Property(
+ *         property="organizations",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Organization")
+ *     )
+ * )
+ */
 class Activity extends Model
 {
     use HasFactory;
